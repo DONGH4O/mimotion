@@ -7,29 +7,28 @@ import sys
 
 
 def get_time_stamp():
-    r""" 获取时间戳，例如：1682583902000
-    :return: 时间戳
     """
-    url = 'http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp'
+    获取当前时间戳，例如：1682583902000
+    :return: 时间戳（单位：毫秒）
+    """
+    # 替换的API地址
+    url = 'https://api.uuni.cn/api/time'
     
     try:
-        # 尝试从淘宝API获取时间戳
-        response = requests.get(url).json()
-        t = response['data']['t']
-        return t
-    except requests.exceptions.RequestException:
-        # 如果淘宝API请求失败，使用备用API获取时间戳
-        backup_url = 'http://worldclockapi.com/api/json/utc/now'
-        try:
-            response = requests.get(backup_url)
-            response.raise_for_status()
-            data = response.json()
-            timestamp = data['currentDateTime']
-            # 获取时间戳（转换为Unix格式）
-            return int((response.json()['currentDateTime'])[:10])
-        except requests.exceptions.RequestException as e:
-            print(f"请求失败: {e}")
+        # 发送请求
+        response = requests.get(url)
+        response.raise_for_status()  # 检查请求状态
+        data = response.json()  # 将响应内容解析为JSON
+        
+        # 提取时间戳
+        if 'timestamp' in data:
+            return data['timestamp']
+        else:
+            print("API返回数据中未找到时间戳字段")
             return None
+    except requests.exceptions.RequestException as e:
+        print(f"请求失败: {e}")
+        return None
 
 
 def loginGetCode(user, password):
