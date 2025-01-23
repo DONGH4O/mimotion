@@ -1,10 +1,24 @@
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 import re
 import random
 import time
 import datetime
 import sys
 
+# Configure retries
+retry_strategy = Retry(
+    total=3,  # Total number of retries
+    backoff_factor=1,  # Time to wait between retries
+    status_forcelist=[429, 500, 502, 503, 504],  # Retry on these status codes
+    method_whitelist=["HEAD", "GET", "OPTIONS", "POST"]  # Retry on these methods
+)
+
+adapter = HTTPAdapter(max_retries=retry_strategy)
+http = requests.Session()
+http.mount("https://", adapter)
+http.mount("http://", adapter)
 
 def get_time_stamp():
     """
