@@ -12,7 +12,7 @@ retry_strategy = Retry(
     total=3,  # Total number of retries
     backoff_factor=1,  # Time to wait between retries
     status_forcelist=[429, 500, 502, 503, 504],  # Retry on these status codes
-    method_whitelist=["HEAD", "GET", "OPTIONS", "POST"]  # Retry on these methods
+    allowed_methods=["HEAD", "GET", "OPTIONS", "POST"]  # Retry on these methods
 )
 
 adapter = HTTPAdapter(max_retries=retry_strategy)
