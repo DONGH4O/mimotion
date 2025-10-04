@@ -46,17 +46,6 @@ def get_time_stamp():
 
 
 def loginGetCode(user, password):
-     # ... (发送请求 r1 的代码)
-
-    # ====== START DEBUG ======
-    print(f"[DEBUG] Status Code: {r1.status_code}")
-    print(f"[DEBUG] Headers: {r1.headers}")
-    if r1.status_code != 302:
-        print(f"[DEBUG] Body: {r1.text[:500]}...") # 打印前500字符
-    # ====== END DEBUG ======
-
-    # 抛出 KeyError 的原始代码
-    location = r1.headers["Location"]
     r"""1、登录获取Code
 
     :param user: 账号：邮箱/手机号
@@ -83,6 +72,12 @@ def loginGetCode(user, password):
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2"
     }
     r1 = requests.post(url, data=data, headers=headers, allow_redirects=False)
+     # ====== START DEBUG ======
+    print(f"[DEBUG] Status Code: {r1.status_code}")
+    print(f"[DEBUG] Headers: {r1.headers}")
+    if r1.status_code != 302:
+        print(f"[DEBUG] Body: {r1.text[:500]}...") # 打印前500字符
+    # ====== END DEBUG ======
     location = r1.headers["Location"]
     print("成功获取Location")
     print(location)
