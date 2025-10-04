@@ -46,6 +46,17 @@ def get_time_stamp():
 
 
 def loginGetCode(user, password):
+     # ... (发送请求 r1 的代码)
+
+    # ====== START DEBUG ======
+    print(f"[DEBUG] Status Code: {r1.status_code}")
+    print(f"[DEBUG] Headers: {r1.headers}")
+    if r1.status_code != 302:
+        print(f"[DEBUG] Body: {r1.text[:500]}...") # 打印前500字符
+    # ====== END DEBUG ======
+
+    # 抛出 KeyError 的原始代码
+    location = r1.headers["Location"]
     r"""1、登录获取Code
 
     :param user: 账号：邮箱/手机号
